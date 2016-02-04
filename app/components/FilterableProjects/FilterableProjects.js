@@ -2,7 +2,7 @@
 * @Author: alexpelletier
 * @Date:   2016-01-10 22:39:22
 * @Last Modified by:   alexpelletier
-* @Last Modified time: 2016-02-04 15:04:45
+* @Last Modified time: 2016-02-04 15:11:20
 */
 import React from 'react';
 import request from 'superagent';
@@ -11,6 +11,14 @@ import ProjectSearchBar from '../ProjectSearchBar'
 import ProjectsGrid from '../ProjectsGrid'
 
 var FilterableProjects = React.createClass({
+    componentDidUpdate: function(){
+        console.log("mxing"); //not firing, but WHY!!
+        $('.portfolio-container').mixItUp({
+            load: {
+                filter: '.star'
+            }
+        });
+    },
     getInitialState: function() {
         return {projects: {}};
     },
@@ -20,19 +28,10 @@ var FilterableProjects = React.createClass({
             .set('Accept', 'application/json')
             .end(function(err, res){
                 let projects = JSON.parse(res.text);
-                console.log(projects);
                 this.setState({
                     projects: projects
                 });
             }.bind(this));
-    },
-    componentDidUpdate: function(){
-        console.log("mxing");
-        $('.portfolio-container').mixItUp({
-            load: {
-                filter: '.star'
-            }
-        });
     },
     render: function() {
         return (
